@@ -8,6 +8,7 @@ import application.pynq_manager as pm
 import application.hdl_modifier as hdl_modifier
 import html
 import copy
+import xml.etree.ElementTree as ET
 
 class HdlgenProject:
 
@@ -976,3 +977,35 @@ class HdlgenProject:
 
     def set_sidebar_unlock_function(self, unlock):
         self.unlock_sidebar = unlock
+
+
+############################################
+##### APIs for Checking HDLGen Project #####
+############################################
+# These two functions are not inside HdlgenProject class 
+# and used before loading a project to ensure its safe to do so.
+
+# 1) Check Vivado Bat Exists
+# 2) Check HDLGen <environment> tag is correct
+
+def get_vivado_path(path_to_hdlgen_project):
+    # Returns path if found, else returns None
+    tree = ET.parse(path_to_hdlgen_project)
+    root = tree.getroot()
+    # Find the <dir> tag
+    dir_tag = root.find('dir')
+    if dir_tag is not None:
+        return dir_tag.text
+    else:
+        return None
+    
+def get_hdl_env_path(path_to_hdlgen_project):
+    # Returns path if found, else returns None
+    tree = ET.parse(path_to_hdlgen_project)
+    root = tree.getroot()
+    # Find the <environment> tag
+    dir_tag = root.find('environment')
+    if dir_tag is not None:
+        return dir_tag.text
+    else:
+        return None

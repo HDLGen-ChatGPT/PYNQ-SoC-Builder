@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import os
+from application.config import * 
 
 class OpenProjectPage(ctk.CTkFrame):
     def __init__(self, app):
@@ -46,6 +47,25 @@ class OpenProjectPage(ctk.CTkFrame):
         if file_path == "":
             pass    # User clicked cancel, don't need to do anything
         elif file_path.endswith(".hdlgen") and os.path.exists(file_path):
+
+            # Check if the Location and Vivado Path are ok
+            if not DISABLE_PROJECT_ENV_PATH_CHECK:
+                # Check and update project environment path.
+                print(f"The current working directory is: {os.getcwd()}")
+                print(f"Project is located at: {file_path}")
+
+                
+                pass
+            
+            
+            
+            if not DISABLE_VIVADO_PATH_CHECK:
+                # Check Vivado path exists
+                pass
+
+
+
+
             # Path Exists, proceed - Also grid forget red warning text if its there.
             # This is because if user closes project returning to main menus
             self.file_not_found_lbl.grid_forget()
